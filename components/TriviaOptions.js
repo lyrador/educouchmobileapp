@@ -94,7 +94,126 @@ const styles = StyleSheet.create({
 });
 
 export default function TriviaOptions({ navigation, route }) {
-  let gameType = route.params.gameType;
+  let socket = route.params.socket;
+  let room = route.params.room;
+  let username = route.params.username;
+
+  React.useEffect(() => {
+    socket.on("receive_start_game", (data) => {
+      console.log("GAME START")
+      console.log(data)
+      setQuestionCounter(data.questionNumber)
+      setNumOfQuestions(data.numOfQuestions)
+      setOpenWaitingPage(false)
+      setOpenCorrectAnswer(false)
+      setOpenWrongAnswer(false)
+    })
+    socket.on("receive_answer_and_score", (data) => {
+      console.log("RECEIVE ANSWER AND SCORE")
+      console.log(data)
+      if (data.author == username) {
+        if (data.submitted == true) {
+          setCurrentQuestionScore(data.score)
+          console.log("TOTAL SCORE BEFORE ADDING: " + totalScoreVariable)
+          totalScoreVariable = totalScoreVariable + data.score
+          console.log("TOTAL SCORE AFTER ADDING: " + totalScoreVariable)
+          setTotalScore(totalScoreVariable)
+          if (data.score == 0) {
+            setOpenWrongAnswer(true);
+            setOpenWaitingPage(false);
+          } else {
+            setOpenCorrectAnswer(true);
+            setOpenWaitingPage(false);
+          }
+          setYellowIsPressed(false)
+          setGreenIsPressed(false)
+          setRedIsPressed(false)
+          setBlueIsPressed(false)
+        } else if (data.submitted == false) {
+          setCurrentQuestionScore(0)
+          setOpenWrongAnswer(true);
+          setOpenWaitingPage(false);
+        }
+      }
+    })
+    socket.on("receive_leaderboard", (data) => {
+      if (data.author == username) {
+        console.log("receive_leaderboard")
+        handleOpenLeaderboard(data)
+      }
+    })
+  }, [socket])
+
+  const handleOpenLeaderboard = (data) => {
+    setLeaderboardData(data)
+    setOpenWrongAnswer(false);
+    setOpenCorrectAnswer(false);
+    setOpenFinishLeaderboard(true)
+  }
+
+  const handleYellowClick = () => {
+    setYellowIsPressed(true);
+    setOpenWaitingPage(true);
+    console.log("Sending Yellow")
+    var timeInMs = +new Date()
+    const data = {
+      room: room,
+      username: username,
+      optionNumber: 1,
+      time: timeInMs
+    }
+    console.log(timeInMs)
+    socket.emit("send_response", data)
+    // setYellowIsPressed(false)
+  };
+
+  const handleGreenClick = () => {
+    setGreenIsPressed(true);
+    setOpenWaitingPage(true);
+    console.log("Sending Green")
+    const data = {
+      room: room,
+      username: username,
+      optionNumber: 2,
+    }
+    socket.emit("send_response", data)
+    // setGreenIsPressed(false)
+  };
+
+  const handleRedClick = () => {
+    setRedIsPressed(true);
+    setOpenWaitingPage(true);
+    console.log("Sending Red")
+    const data = {
+      room: room,
+      username: username,
+      optionNumber: 3,
+    }
+    socket.emit("send_response", data)
+    // setRedIsPressed(false)
+  };
+
+  const handleBlueClick = () => {
+    setBlueIsPressed(true);
+    setOpenWaitingPage(true);
+    console.log("Sending Blue")
+    const data = {
+      room: room,
+      username: username,
+      optionNumber: 4,
+    }
+    socket.emit("send_response", data)
+    // setBlueIsPressed(false)
+  };
+
+  const [leaderboardData, setLeaderboardData] = React.useState([]);
+  const [questionCounter, setQuestionCounter] = React.useState(0);
+  const [numOfQuestions, setNumOfQuestions] = React.useState("");
+
+  var totalScoreVariable = 0
+  const [totalScore, setTotalScore] = React.useState(0);
+  const [currentQuestionScore, setCurrentQuestionScore] = React.useState(0);
+
 
   const [formData, setData] = React.useState({});
   const [errors, setErrors] = React.useState({});
@@ -106,20 +225,7 @@ export default function TriviaOptions({ navigation, route }) {
   const [openWaitingPage, setOpenWaitingPage] = React.useState(true);
   const [openCorrectAnswer, setOpenCorrectAnswer] = React.useState(false);
   const [openWrongAnswer, setOpenWrongAnswer] = React.useState(false);
-  const [openFinishLeaderboard, setOpenFinishLeaderboard] =
-    React.useState(false);
-
-  const validate = () => {
-    if (formData.name === undefined || formData.name === "") {
-      setErrors({ ...errors, name: "Nickname is required" });
-      return false;
-    }
-    return true;
-  };
-
-  const onSubmit = () => {
-    validate() ? console.log("Submitted") : console.log("Validation Failed");
-  };
+  const [openFinishLeaderboard, setOpenFinishLeaderboard] = React.useState(false);
 
   return (
     <NativeBaseProvider>
@@ -147,7 +253,9 @@ export default function TriviaOptions({ navigation, route }) {
           <Heading size="sm">Trivia</Heading>
         </Box>
         <Box style={{ position: "absolute", right: 0, paddingRight: 10 }}>
-          <Text>1 of 20</Text>
+          {openWaitingPage == false && openCorrectAnswer == false && openWrongAnswer == false && openFinishLeaderboard == false &&
+            <Text>{questionCounter} of {numOfQuestions}</Text>
+          }
         </Box>
       </View>
       {openWaitingPage == false &&
@@ -167,6 +275,10 @@ export default function TriviaOptions({ navigation, route }) {
             setOpenWaitingPage={setOpenWaitingPage}
             openFinishLeaderboard={openFinishLeaderboard}
             setOpenFinishLeaderboard={setOpenFinishLeaderboard}
+            handleYellowClick={handleYellowClick}
+            handleGreenClick={handleGreenClick}
+            handleRedClick={handleRedClick}
+            handleBlueClick={handleBlueClick}
           />
         )}
       {openWaitingPage == true && (
@@ -190,6 +302,7 @@ export default function TriviaOptions({ navigation, route }) {
           openFinishLeaderboard={openFinishLeaderboard}
           setOpenFinishLeaderboard={setOpenFinishLeaderboard}
           navigation={navigation}
+          currentQuestionScore={currentQuestionScore}
         />
       )}
       {openWrongAnswer == true && (
@@ -201,6 +314,7 @@ export default function TriviaOptions({ navigation, route }) {
           openFinishLeaderboard={openFinishLeaderboard}
           setOpenFinishLeaderboard={setOpenFinishLeaderboard}
           navigation={navigation}
+          currentQuestionScore={currentQuestionScore}
         />
       )}
       {openFinishLeaderboard == true && (
@@ -210,27 +324,17 @@ export default function TriviaOptions({ navigation, route }) {
           openFinishLeaderboard={openFinishLeaderboard}
           setOpenFinishLeaderboard={setOpenFinishLeaderboard}
           navigation={navigation}
+          leaderboardData={leaderboardData}
         />
       )}
       <View style={styles.footer}>
         <Box style={{ position: "absolute", left: 0, paddingLeft: 10 }}>
-          <Heading size="sm">Waryl</Heading>
+          <Heading size="sm">{username}</Heading>
         </Box>
-        <Box
-          style={{
-            position: "absolute",
-            right: 0,
-            paddingRight: 10,
-          }}
-        >
-          <Box
-            style={{
-              padding: 8,
-              backgroundColor: "#353535",
-            }}
-          >
+        <Box style={{ position: "absolute", right: 0, paddingRight: 10 }}>
+          <Box style={{ padding: 8, backgroundColor: "#353535" }}>
             <Heading size="md" style={{ color: "white" }}>
-              234543
+              {totalScore}
             </Heading>
           </Box>
         </Box>

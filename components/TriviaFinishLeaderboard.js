@@ -115,7 +115,7 @@ const TriviaFinishLeaderboard = (props) => {
               zIndex: 10,
             }}
           >
-            waryl
+            {props.leaderboardData.firstScorerName}
           </Heading>
         </Animated.View>
         <Animated.View style={[secondPlaceAnimationStyles]}>
@@ -126,7 +126,7 @@ const TriviaFinishLeaderboard = (props) => {
               zIndex: 10,
             }}
           >
-            waryl
+            {props.leaderboardData.secondScorerName}
           </Heading>
         </Animated.View>
         <Animated.View style={[thirdPlaceAnimationStyles]}>
@@ -137,7 +137,7 @@ const TriviaFinishLeaderboard = (props) => {
               zIndex: 10,
             }}
           >
-            waryl
+            {props.leaderboardData.thirdScorerName}
           </Heading>
         </Animated.View>
         <Image
@@ -156,14 +156,23 @@ const TriviaFinishLeaderboard = (props) => {
           }}
         >
           <Heading color="white" size="2xl">
-            -- 1st Place --
+            -- Rank: {props.leaderboardData.position} --
           </Heading>
-          <Heading color="white" size="lg">
+          {props.leaderboardData.position == 1 && <Heading color="white" size="lg">
+            Champion!
+          </Heading>
+          }
+          {props.leaderboardData.position == 2 && <Heading color="white" size="lg">
             Fabulous!
           </Heading>
+          }
+          {props.leaderboardData.position >= 3 && <Heading color="white" size="lg">
+            Keep trying!
+          </Heading>
+          }
         </View>
         <Button size="md" onPress={() => props.navigation.pop()}>
-          Testing: Proceed to End
+          Leave
         </Button>
       </SafeAreaView>
     </NativeBaseProvider>

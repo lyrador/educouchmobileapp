@@ -42,7 +42,10 @@ export default function App() {
           component={ThirdScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Enter your Name" component={EnterName} />
+        <Stack.Screen
+          name="Enter your Name"
+          component={EnterName}
+        />
         <Stack.Screen
           name="Trivia Options"
           component={TriviaOptions}

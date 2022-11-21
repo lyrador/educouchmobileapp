@@ -108,7 +108,7 @@ export default function Home({ navigation }) {
             }}
           />
           <View style={{ flex: 3 }} alignItems="center">
-            <VStack width="300" height="200">
+            {/* <VStack width="300" height="200">
               <FormControl isRequired isInvalid={"name" in errors}>
                 <FormControl.Label
                   _text={{
@@ -136,7 +136,7 @@ export default function Home({ navigation }) {
               <Button onPress={onSubmit} mt="5" colorScheme="cyan">
                 Join
               </Button>
-            </VStack>
+            </VStack> */}
             <Button
               leftIcon={<Icon as={Ionicons} name="qr-code-outline" size="sm" />}
               size="md"
@@ -149,7 +149,7 @@ export default function Home({ navigation }) {
                 navigation.navigate("Enter your Name", { gameType: "TRIVIA" })
               }
             >
-              Testing: Proceed to Trivia
+              Play a Trivia!
             </Button>
             <Button
               size="md"
@@ -157,7 +157,7 @@ export default function Home({ navigation }) {
                 navigation.navigate("Enter your Name", { gameType: "POLL" })
               }
             >
-              Testing: Proceed to Poll
+              Join a Poll!
             </Button>
           </View>
         </View>

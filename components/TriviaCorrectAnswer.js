@@ -38,7 +38,13 @@ const TriviaCorrectAnswer = (props) => {
           source={require("../assets/doggo.gif")}
           style={{ height: 200, resizeMode: "contain" }}
         />
-        <HStack space={2} justifyContent="center" style={{ paddingTop: "10%" }}>
+        <Heading size="lg" style={{ color: "white", paddingTop: "10%" }}>
+          You got
+        </Heading>
+        <Heading size="3xl" style={{ color: "white" }}>
+          {props.currentQuestionScore}
+        </Heading>
+        <HStack space={2} justifyContent="center" style={{ paddingTop: "5%" }}>
           <Spinner color="indigo.500" accessibilityLabel="Loading posts" />
           <Heading color="indigo.500" fontSize="md">
             Waiting for sensei...

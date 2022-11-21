@@ -41,7 +41,13 @@ const TriviaWrongAnswer = (props) => {
             resizeMode: "contain",
           }}
         />
-        <HStack space={2} justifyContent="center" style={{ paddingTop: "10%" }}>
+        <Heading size="lg" style={{ color: "white", paddingTop: "10%" }}>
+          You got
+        </Heading>
+        <Heading size="3xl" style={{ color: "white" }}>
+          {props.currentQuestionScore}
+        </Heading>
+        <HStack space={2} justifyContent="center" style={{ paddingTop: "5%" }}>
           <Spinner accessibilityLabel="Loading posts" />
           <Heading fontSize="md">Waiting for sensei...</Heading>
           {/* <Heading size="md">Waiting for sensei...</Heading> */}

@@ -25,6 +25,10 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import DismissKeyboard from "./DismissKeyboard";
 
+import io from "socket.io-client";
+
+const socket = io.connect("http://192.168.0.101:3001")
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -51,19 +55,75 @@ export default function EnterName({ navigation, route }) {
   //     setGamePinInputHeight(140);
   //   });
 
-  const [formData, setData] = React.useState({});
+  const [username, setUsername] = React.useState("");
+  const [room, setRoom] = React.useState("");
   const [errors, setErrors] = React.useState({});
+  const [haveError, setHaveError] = React.useState(false);
+  const [invalidRoom, setInvalidRoom] = React.useState(false);
+
+  const joinRoom = () => {
+    console.log(room)
+    const data = {
+      room: room,
+      author: username,
+    }
+    socket.emit("join_room", data)
+  }
+
+  // const checkRoom = () => {
+  //   console.log(room)
+  //   const data = {
+  //     room: room,
+  //     author: username,
+  //   }
+  //   socket.emit("check_room", data)
+  // }
+
+  // React.useEffect(() => {
+  //   socket.on("receive_invalid_room_learner", (data) => {
+  //     if (data.author == username) {
+  //       if (data.validity == true) {
+  //         setInvalidRoom(false)
+  //       } else {
+  //         setInvalidRoom(true)
+  //       }
+  //     }
+  //   })
+  // }, [socket])
 
   const validate = () => {
-    if (formData.name === undefined || formData.name === "") {
+    if (username === undefined || username === "") {
       setErrors({ ...errors, name: "Nickname is required" });
+      setHaveError(true)
+    }
+    if (room === undefined || room === "") {
+      setErrors({ ...errors, room: "Pin is required" });
+      setHaveError(true)
+    } else if (room.length < 6) {
+      setErrors({ ...errors, room: "Pin is too short" });
+      setHaveError(true)
+    }
+    // if (invalidRoom) {
+    //   setErrors({ ...errors, room: "No such active game!" });
+    //   setHaveError(true)
+    // }
+
+    if (haveError) {
+      setHaveError(false)
       return false;
     }
     return true;
   };
 
   const onSubmit = () => {
-    validate() ? console.log("Submitted") : console.log("Validation Failed");
+    // checkRoom()
+    if (validate()) {
+      console.log("Submitted")
+      joinRoom()
+      navigation.navigate("Trivia Options", { socket: socket, username: username, room: room })
+    } else {
+      console.log("Validation Failed");
+    }
   };
 
   return (
@@ -94,12 +154,34 @@ export default function EnterName({ navigation, route }) {
                     bold: true,
                   }}
                 >
+                  Game Pin
+                </FormControl.Label>
+                <Input
+                  placeholder="T00000"
+                  onChangeText={(value) =>
+                    setRoom(value)
+                  }
+                />
+                {"room" in errors ? (
+                  <FormControl.ErrorMessage>
+                    {errors.room}
+                  </FormControl.ErrorMessage>
+                ) : (
+                  <FormControl.HelperText>
+                    Enter your room!
+                  </FormControl.HelperText>
+                )}
+                <FormControl.Label
+                  _text={{
+                    bold: true,
+                  }}
+                >
                   Name
                 </FormControl.Label>
                 <Input
                   placeholder="johntheking"
                   onChangeText={(value) =>
-                    setData({ ...formData, name: value })
+                    setUsername(value)
                   }
                 />
                 {"name" in errors ? (
@@ -113,10 +195,10 @@ export default function EnterName({ navigation, route }) {
                 )}
               </FormControl>
               <Button onPress={onSubmit} mt="5" colorScheme="cyan">
-                Start
+                Join
               </Button>
             </VStack>
-            {gameType == "TRIVIA" && (
+            {/* {gameType == "TRIVIA" && (
               <Button
                 size="md"
                 onPress={() =>
@@ -125,7 +207,7 @@ export default function EnterName({ navigation, route }) {
               >
                 Testing: Proceed to Trivia Options
               </Button>
-            )}
+            )} */}
             {gameType == "POLL" && (
               <Button
                 size="md"
