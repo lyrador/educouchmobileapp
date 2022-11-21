@@ -35,6 +35,10 @@ import TriviaCorrectAnswer from "./TriviaCorrectAnswer";
 import TriviaWrongAnswer from "./TriviaWrongAnswer";
 import TriviaFinishLeaderboard from "./TriviaFinishLeaderboard";
 
+import { LogBox } from "react-native";
+
+LogBox.ignoreAllLogs();
+
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
@@ -102,6 +106,7 @@ export default function TriviaOptions({ navigation, route }) {
     socket.on("receive_start_game", (data) => {
       console.log("GAME START")
       console.log(data)
+      setQuestionType(data.questionType)
       setQuestionCounter(data.questionNumber)
       setNumOfQuestions(data.numOfQuestions)
       setOpenWaitingPage(false)
@@ -206,6 +211,7 @@ export default function TriviaOptions({ navigation, route }) {
     // setBlueIsPressed(false)
   };
 
+  const [questionType, setQuestionType] = React.useState("Four Options");
   const [leaderboardData, setLeaderboardData] = React.useState([]);
   const [questionCounter, setQuestionCounter] = React.useState(0);
   const [numOfQuestions, setNumOfQuestions] = React.useState("");
@@ -279,6 +285,7 @@ export default function TriviaOptions({ navigation, route }) {
             handleGreenClick={handleGreenClick}
             handleRedClick={handleRedClick}
             handleBlueClick={handleBlueClick}
+            questionType={questionType}
           />
         )}
       {openWaitingPage == true && (

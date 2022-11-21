@@ -50,7 +50,7 @@ const TriviaCorrectAnswer = (props) => {
             Waiting for sensei...
           </Heading>
         </HStack>
-        <Button
+        {/* <Button
           size="md"
           onPress={() => {
             props.setOpenWaitingPage(false), props.setOpenCorrectAnswer(false);
@@ -66,7 +66,7 @@ const TriviaCorrectAnswer = (props) => {
           }}
         >
           Testing: Simulate Finish
-        </Button>
+        </Button> */}
       </SafeAreaView>
     </NativeBaseProvider>
   );

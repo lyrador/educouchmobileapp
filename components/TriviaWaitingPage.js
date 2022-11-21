@@ -43,9 +43,9 @@ const TriviaWaitingPage = (props) => {
           />
         </HStack>
         <Heading style={{ paddingTop: 60 }} size="md">
-          Waiting for the slowpokes 0_0...
+          Waiting...
         </Heading>
-        <Button size="md" onPress={() => props.setOpenWaitingPage(false)}>
+        {/* <Button size="md" onPress={() => props.setOpenWaitingPage(false)}>
           Testing: Start Trivia
         </Button>
         <Button
@@ -63,7 +63,7 @@ const TriviaWaitingPage = (props) => {
           }}
         >
           Testing: Simulate Wrong Answer
-        </Button>
+        </Button> */}
       </SafeAreaView>
     </NativeBaseProvider>
   );

@@ -22,6 +22,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  containerTwo: {
+    backgroundColor: "#fff",
+    width: "100%",
+    height: "90%",
+    padding: 5,
+    flexDirection: "row",
+  },
+  boxTwo: {
+    width: "50%",
+    height: "100%",
+    padding: 5,
+  },
 });
 
 const TriviaCards = (props) => {
@@ -42,13 +54,13 @@ const TriviaCards = (props) => {
 
   return (
     <NativeBaseProvider>
-      <SafeAreaView style={styles.container}>
+      {props.questionType == "Four Options" && <SafeAreaView style={styles.container}>
         <View style={styles.box}>
           <View style={styles.inner}>
             <Button
               size="full"
               style={{
-                backgroundColor: props.yellowIsPressed ? "#f2aa00" : "#EFCC00",
+                backgroundColor: "#EFCC00",
               }}
               onPress={props.handleYellowClick}
             >
@@ -64,7 +76,7 @@ const TriviaCards = (props) => {
             <Button
               size="full"
               style={{
-                backgroundColor: props.greenIsPressed ? "#288e2b" : "#3CB043",
+                backgroundColor: "#3CB043",
               }}
               onPress={props.handleGreenClick}
             >
@@ -80,12 +92,12 @@ const TriviaCards = (props) => {
             <Button
               size="full"
               style={{
-                backgroundColor: props.redIsPressed ? "#b00000" : "#D21404",
+                backgroundColor: "#D21404",
               }}
               onPress={props.handleRedClick}
             >
               <Image
-                source={require("../assets/cloudwhite.png")}
+                source={require("../assets/applewhite.png")}
                 style={{ width: 100, resizeMode: "contain" }}
               />
             </Button>
@@ -95,13 +107,49 @@ const TriviaCards = (props) => {
           <View style={styles.inner}>
             <Button size="full" onPress={props.handleBlueClick}>
               <Image
-                source={require("../assets/waterwhite.png")}
+                source={require("../assets/cloudwhite.png")}
                 style={{ width: 100, resizeMode: "contain" }}
               />
             </Button>
           </View>
         </View>
       </SafeAreaView>
+      }
+      {props.questionType == "True or False" && <SafeAreaView style={styles.containerTwo}>
+        <View style={styles.boxTwo}>
+          <View style={styles.inner}>
+            <Button
+              size="full"
+              style={{
+                backgroundColor: "#3CB043",
+              }}
+              onPress={props.handleYellowClick}
+            >
+              <Image
+                source={require("../assets/correct.png")}
+                style={{ width: 100, resizeMode: "contain" }}
+              />
+            </Button>
+          </View>
+        </View>
+        <View style={styles.boxTwo}>
+          <View style={styles.inner}>
+            <Button
+              size="full"
+              style={{
+                backgroundColor: "#D21404",
+              }}
+              onPress={props.handleGreenClick}
+            >
+              <Image
+                source={require("../assets/wrong.png")}
+                style={{ width: 100, resizeMode: "contain" }}
+              />
+            </Button>
+          </View>
+        </View>
+      </SafeAreaView>
+      }
     </NativeBaseProvider>
   );
 };

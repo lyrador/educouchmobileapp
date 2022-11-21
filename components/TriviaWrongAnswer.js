@@ -52,7 +52,7 @@ const TriviaWrongAnswer = (props) => {
           <Heading fontSize="md">Waiting for sensei...</Heading>
           {/* <Heading size="md">Waiting for sensei...</Heading> */}
         </HStack>
-        <Button
+        {/* <Button
           size="md"
           style={{}}
           onPress={() => {
@@ -69,7 +69,7 @@ const TriviaWrongAnswer = (props) => {
           }}
         >
           Testing: Simulate Finish
-        </Button>
+        </Button> */}
       </SafeAreaView>
     </NativeBaseProvider>
   );
