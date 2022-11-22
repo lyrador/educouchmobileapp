@@ -45,6 +45,21 @@ const styles = StyleSheet.create({
     height: 80,
     resizeMode: "contain",
   },
+  containerButtons: {
+    backgroundColor: "#fff",
+    height: 80,
+    width: 200,
+    alignItems: "center",
+    alignContent: "center",
+    textAlign: "center",
+  },
+  containerButtonTop: {
+    marginBottom: 20
+  },
+  // logoContainer: {
+  //   width: "100%",
+  //   height: "100%",
+  // },
   // title: {
   //   fontSize: 30,
   //   fontWeight: "300",
@@ -137,28 +152,31 @@ export default function Home({ navigation }) {
                 Join
               </Button>
             </VStack> */}
-            <Button
+            {/* <Button
               leftIcon={<Icon as={Ionicons} name="qr-code-outline" size="sm" />}
               size="md"
             >
               Scan QR
-            </Button>
-            <Button
-              size="md"
-              onPress={() =>
-                navigation.navigate("Enter your Name", { gameType: "TRIVIA" })
-              }
-            >
-              Play a Trivia!
-            </Button>
-            <Button
-              size="md"
-              onPress={() =>
-                navigation.navigate("Enter your Name", { gameType: "POLL" })
-              }
-            >
-              Join a Poll!
-            </Button>
+            </Button> */}
+            <View style={styles.containerButtons}>
+              <Button
+                size="full"
+                onPress={() =>
+                  navigation.navigate("Enter your Name", { gameType: "TRIVIA" })
+                }
+                style={styles.containerButtonTop}
+              >
+                Play a Trivia!
+              </Button>
+              <Button
+                size="full"
+                onPress={() =>
+                  navigation.navigate("Enter your Name", { gameType: "POLL" })
+                }
+              >
+                Join a Poll!
+              </Button>
+            </View>
           </View>
         </View>
       </DismissKeyboard>
