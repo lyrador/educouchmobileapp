@@ -176,10 +176,12 @@ export default function TriviaOptions({ navigation, route }) {
     setGreenIsPressed(true);
     setOpenWaitingPage(true);
     console.log("Sending Green")
+    var timeInMs = +new Date()
     const data = {
       room: room,
       username: username,
       optionNumber: 2,
+      time: timeInMs
     }
     socket.emit("send_response", data)
     // setGreenIsPressed(false)
@@ -189,10 +191,12 @@ export default function TriviaOptions({ navigation, route }) {
     setRedIsPressed(true);
     setOpenWaitingPage(true);
     console.log("Sending Red")
+    var timeInMs = +new Date()
     const data = {
       room: room,
       username: username,
       optionNumber: 3,
+      time: timeInMs
     }
     socket.emit("send_response", data)
     // setRedIsPressed(false)
@@ -202,10 +206,12 @@ export default function TriviaOptions({ navigation, route }) {
     setBlueIsPressed(true);
     setOpenWaitingPage(true);
     console.log("Sending Blue")
+    var timeInMs = +new Date()
     const data = {
       room: room,
       username: username,
       optionNumber: 4,
+      time: timeInMs
     }
     socket.emit("send_response", data)
     // setBlueIsPressed(false)

@@ -70,6 +70,15 @@ export default function EnterName({ navigation, route }) {
     socket.emit("join_room", data)
   }
 
+  const joinRoomPoll = () => {
+    console.log(room)
+    const data = {
+      room: room,
+      author: username,
+    }
+    socket.emit("join_room_poll", data)
+  }
+
   // const checkRoom = () => {
   //   console.log(room)
   //   const data = {
@@ -115,12 +124,37 @@ export default function EnterName({ navigation, route }) {
     return true;
   };
 
+  // const login = async () => {
+  //   try {
+  //     const response = await fetch("http://192.168.0.101/loginFromMobile/" + username, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //     })
+  //     console.log(response)
+  //     if (response.ok == false) {
+  //       joinRoom()
+  //       navigation.navigate("Trivia Options", { socket: socket, username: username, room: room })
+  //     } else {
+  //       setErrors({ ...errors, name: "Invalid username" });
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //     setErrors({ ...errors, name: "Invalid username" });
+  //   }
+  // }
+
   const onSubmit = () => {
     // checkRoom()
     if (validate()) {
       console.log("Submitted")
-      joinRoom()
-      navigation.navigate("Trivia Options", { socket: socket, username: username, room: room })
+      // login()
+      if (gameType == "TRIVIA") {
+        joinRoom()
+        navigation.navigate("Trivia Options", { socket: socket, username: username, room: room })
+      } else if (gameType == "POLL") {
+        joinRoomPoll()
+        navigation.navigate("Poll Options", { socket: socket, username: username, room: room })
+      }
     } else {
       console.log("Validation Failed");
     }
@@ -208,7 +242,7 @@ export default function EnterName({ navigation, route }) {
                 Testing: Proceed to Trivia Options
               </Button>
             )} */}
-            {gameType == "POLL" && (
+            {/* {gameType == "POLL" && (
               <Button
                 size="md"
                 onPress={() =>
@@ -217,7 +251,7 @@ export default function EnterName({ navigation, route }) {
               >
                 Testing: Proceed to Poll Options
               </Button>
-            )}
+            )} */}
           </View>
         </View>
       </DismissKeyboard>
