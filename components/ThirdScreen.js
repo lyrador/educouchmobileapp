@@ -15,9 +15,6 @@ export default function ThirdScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <Text>Third</Text>
-      <Button title="Pop to root" onPress={() => navigation.popToTop()} />
-      <Button title="Pop to root" onPress={() => navigation.pop()} />
-      <StatusBar style="auto" />
     </View>
   );
 }

@@ -34,7 +34,6 @@ const TriviaWaitingPage = (props) => {
   return (
     <NativeBaseProvider>
       <SafeAreaView style={styles.container}>
-        {/* <Text>Hello</Text> */}
         <HStack space={8} justifyContent="center" alignItems="center">
           <Spinner
             size="lg"

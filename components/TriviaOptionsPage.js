@@ -12,8 +12,6 @@ const styles = StyleSheet.create({
 });
 
 export default function TriviaOptionsPage({ navigation, route }) {
-  let hello = route.params.hello;
-  let greeting = hello === "french" ? "Bonjour" : "Hello";
   return (
     <View style={styles.container}>
       <Text>{greeting}</Text>

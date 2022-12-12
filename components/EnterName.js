@@ -232,26 +232,6 @@ export default function EnterName({ navigation, route }) {
                 Join
               </Button>
             </VStack>
-            {/* {gameType == "TRIVIA" && (
-              <Button
-                size="md"
-                onPress={() =>
-                  navigation.navigate("Trivia Options", { hello: "french" })
-                }
-              >
-                Testing: Proceed to Trivia Options
-              </Button>
-            )} */}
-            {/* {gameType == "POLL" && (
-              <Button
-                size="md"
-                onPress={() =>
-                  navigation.navigate("Poll Options", { hello: "french" })
-                }
-              >
-                Testing: Proceed to Poll Options
-              </Button>
-            )} */}
           </View>
         </View>
       </DismissKeyboard>

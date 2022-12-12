@@ -183,23 +183,3 @@ export default function Home({ navigation }) {
     </NativeBaseProvider>
   );
 }
-
-{
-  /* <Button
-        title="Navigate to second screen with french"
-        onPress={() => navigation.navigate("Second", { hello: "french" })}
-      />
-      <Button
-        title="Navigate to second screen with english"
-        onPress={() => navigation.navigate("Second", { hello: "eng" })}
-      /> */
-}
-
-{
-  /* <TextInput
-          style={styles.input}
-          onChangeText={onChangeGamePin}
-          value={gamePin}
-          placeholder="Enter the game pin here!"
-        /> */
-}
